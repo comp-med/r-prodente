@@ -9,11 +9,11 @@
 What the package does (one paragraph).
 }
 \author{
-\strong{Maintainer}: Carl Beuchel \email{carl.beuchel(at)charite.de} (\href{https://orcid.org/0000-0003-3224-3894}{ORCID})
+\strong{Maintainer}: Carl Beuchel \email{carl.beuchel@charite.de} (\href{https://orcid.org/0000-0003-3224-3894}{ORCID})
 
 Authors:
 \itemize{
-  \item Maik Pietzner \email{mark.pietzner(at)bih-charite.de} (\href{https://orcid.org/0000-0003-3437-9963}{ORCID})
+  \item Maik Pietzner \email{mark.pietzner@bih-charite.de} (\href{https://orcid.org/0000-0003-3437-9963}{ORCID})
 }
 
 }

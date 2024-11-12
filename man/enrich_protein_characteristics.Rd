@@ -13,24 +13,36 @@ enrich_protein_characteristics(
 )
 }
 \arguments{
-\item{protein_foreground}{Vector of strings. Vector of all lowercase protein targets to test enrichment for. Use \code{check_protein_overlap} to get only proteins available in the background data or check manually against column \code{mapping_id} of \code{data(protein_mapping_table)}.}
+\item{protein_foreground}{Vector of strings. Vector of all lowercase protein
+targets to test enrichment for. Use \code{check_protein_overlap} to get only
+proteins available in the background data or check manually against column
+\code{mapping_id} of \code{prete::protein_mapping_table}.}
 
-\item{factor_minimum_explained_variance}{Numeric. Defaults to \code{0}. Value between 0-1 to require a minimum of explained variance by certain factors to be considered.}
+\item{factor_minimum_explained_variance}{Numeric. Defaults to \code{0}. Value
+between 0-1 to require a minimum of explained variance by certain factors
+to be considered.}
 
-\item{test_across}{String. Defaults to "sex". Whether to test for enrichment stratified by sex or genetic ancestry. Either "sex" or "ancestry" is accepted.}
+\item{test_across}{String. Defaults to "sex". Whether to test for enrichment
+stratified by sex or genetic ancestry. Either "sex" or "ancestry" is
+accepted.}
 
 \item{protein_background}{Vector of strings. Optional list of proteins to be used as background.}
 
-\item{n_cores}{Integer. Defaults to \code{1}. Number of cores to use to parallelize enrichment testing. Passed to \code{mc.cores} of \code{parallel::mclapply}.}
+\item{n_cores}{Integer. Defaults to \code{1}. Number of cores to use to
+parallelize enrichment testing. Passed to \code{mc.cores} of
+\code{parallel::mclapply}.}
 }
 \value{
 A data.table object.
 }
 \description{
-This function...
+Perform enrichment analysis with a list of input protein identifiers. Check
+column \code{mapping_id} of the included data object \code{prete::protein_mapping_table}
+for a full overview of protein identifiers that can be submitted for
+enrichment analysis.
 }
 \examples{
-#'\dontrun{
+\dontrun{
 # All valid proteins
 my_proteins <- c("pcsk9", "apoa4", "lep", "tmprss15", "fam3b")
 enrich_protein_characteristics(

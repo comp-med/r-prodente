@@ -18,14 +18,14 @@ plot_enrichment_results <- function(
     stop("Please supply the output of `enrich_protein_characteristics()` to this function.")
   }
 
-  if (is.null(plot_population) || !(plot_population %in% enrichment_results$population)) {
+  if (
+    is.null(plot_population) ||
+    length(plot_population) != 1 ||
+    !(plot_population %in% enrichment_results$population)
+  ) {
     stop("Please specify which population to plot. Find available values in the `population` column of the enrichment results.")
   } else {
     enrichment_results <- enrichment_results[population == (plot_population)]
-  }
-
-  if (uniqueN(enrichment_results$population) != 1) {
-    stop("Number of populations  is not 1. Please plot only for a single population!")
   }
 
   # variables enriched at least once
@@ -34,11 +34,13 @@ plot_enrichment_results <- function(
     (p_adjust < (0.05)) & (or > 1),
     unique(label)
   ]
+  if (length(enriched_variables) == 0) {
+    stop("No enriched variables to plot.")
+  }
 
   ## sort and reduce to characteristics enriched at least once
   plotting_data <- enrichment_results[label %in% enriched_variables]
   plotting_data <- plotting_data[order(category_sort, variable), ]
-  plotting_data[, label_sort := 1:length(label), by = group]
   plotting_data[, log10p := -log10(pval)]
 
   enrichment_plot <- ggplot2::ggplot(

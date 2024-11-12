@@ -24,7 +24,7 @@
 #' @export
 #'
 #' @examples
-#' #'\dontrun{
+#' \dontrun{
 #' # All valid proteins
 #' my_proteins <- c("pcsk9", "apoa4", "lep", "tmprss15", "fam3b")
 #' enrich_protein_characteristics(

@@ -28,8 +28,21 @@ enrichment_test_across_groups <- function(
     n_cores = 1
 ) {
 
-  if (is.null(protein_foreground_list)) {
+  if (is.null(protein_foreground_list) || !is.list(protein_foreground_list)) {
     stop("Please supply named list containing protein identifiers for each testing group.")
+  }
+
+  if (is.null(names(protein_foreground_list))) {
+    warning("No names provided with the input list. Using default values: `group_1`, `group_2`...")
+    names(protein_foreground_list) <- paste0("group", 1:length(protein_foreground_list))
+  }
+
+  if (
+    any(is.na(names(protein_foreground_list))) ||
+    any(nchar(names(protein_foreground_list)) == 0) ||
+    data.table::uniqueN(names(protein_foreground_list)) != length(names(protein_foreground_list))
+      ) {
+    stop("Please supply unique and non-empty names to each element of protein_foreground_list.")
   }
 
   protein_characteristic_enrichments <- lapply(

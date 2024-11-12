@@ -15,13 +15,19 @@ enrichment_test_across_groups(
 \arguments{
 \item{protein_foreground_list}{Named list. Different protein foregrounds to be tested for enrichment of UK Biobank study characteristics sequentially. The name of each list item is used as a grouping variable. See examples for details.}
 
-\item{factor_minimum_explained_variance}{Numeric. Defaults to \code{0}. Value between 0-1 to require a minimum of explained variance by certain factors to be considered.}
+\item{factor_minimum_explained_variance}{Numeric. Defaults to \code{0}. Value
+between 0-1 to require a minimum of explained variance by certain factors
+to be considered.}
 
-\item{test_across}{String. Defaults to "sex". Whether to test for enrichment stratified by sex or genetic ancestry. Either "sex" or "ancestry" is accepted.}
+\item{test_across}{String. Defaults to "sex". Whether to test for enrichment
+stratified by sex or genetic ancestry. Either "sex" or "ancestry" is
+accepted.}
 
 \item{protein_background}{Vector of strings. Optional list of proteins to be used as background.}
 
-\item{n_cores}{Integer. Defaults to \code{1}. Number of cores to use to parallelize enrichment testing. Passed to \code{mc.cores} of \code{parallel::mclapply}.}
+\item{n_cores}{Integer. Defaults to \code{1}. Number of cores to use to
+parallelize enrichment testing. Passed to \code{mc.cores} of
+\code{parallel::mclapply}.}
 }
 \value{
 A data.table containing enrichment results for all groups in input data.
