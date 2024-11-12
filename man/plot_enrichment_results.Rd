@@ -6,11 +6,14 @@
 \usage{
 plot_enrichment_results(
   enrichment_results = NULL,
+  plot_population = NULL,
   pvalue_adjustment = "bonferroni"
 )
 }
 \arguments{
 \item{enrichment_results}{data.table. Output from \code{enrichment_test_across_groups()}, restricted to a single population (of either sex or genetic ancestry).}
+
+\item{plot_population}{String. To limit plot size, choose one population to plot results for.}
 
 \item{pvalue_adjustment}{string. Defaults to "bonferroni". Passed to \code{p.adjust()}. See that function's help page for options.}
 }

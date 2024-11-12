@@ -1,12 +1,24 @@
 #' Test for enrichment of proteins in UK Biobank participant characteristics
 #'
-#' This function...
+#' Perform enrichment analysis with a list of input protein identifiers. Check
+#' column `mapping_id` of the included data object `prete::protein_mapping_table`
+#' for a full overview of protein identifiers that can be submitted for
+#' enrichment analysis.
 #'
-#' @param protein_foreground Vector of strings. Vector of all lowercase protein targets to test enrichment for. Use `check_protein_overlap` to get only proteins available in the background data or check manually against column `mapping_id` of `data(protein_mapping_table)`.
-#' @param factor_minimum_explained_variance Numeric. Defaults to `0`. Value between 0-1 to require a minimum of explained variance by certain factors to be considered.
+#' @param protein_foreground Vector of strings. Vector of all lowercase protein
+#'   targets to test enrichment for. Use `check_protein_overlap` to get only
+#'   proteins available in the background data or check manually against column
+#'   `mapping_id` of `prete::protein_mapping_table`.
+#' @param factor_minimum_explained_variance Numeric. Defaults to `0`. Value
+#'   between 0-1 to require a minimum of explained variance by certain factors
+#'   to be considered.
 #' @param protein_background Vector of strings. Optional list of proteins to be used as background.
-#' @param test_across String. Defaults to "sex". Whether to test for enrichment stratified by sex or genetic ancestry. Either "sex" or "ancestry" is accepted.
-#' @param n_cores Integer. Defaults to `1`. Number of cores to use to parallelize enrichment testing. Passed to `mc.cores` of `parallel::mclapply`.
+#' @param test_across String. Defaults to "sex". Whether to test for enrichment
+#'   stratified by sex or genetic ancestry. Either "sex" or "ancestry" is
+#'   accepted.
+#' @param n_cores Integer. Defaults to `1`. Number of cores to use to
+#'   parallelize enrichment testing. Passed to `mc.cores` of
+#'   `parallel::mclapply`.
 #'
 #' @return A data.table object.
 #' @export
@@ -32,17 +44,13 @@ enrich_protein_characteristics <- function(
     n_cores = 1
     ) {
 
-  # Data needed for enrichment testing
-  data(participant_characteristics_labels)
-  data(variance_decomposition_background)
-
   test_across <- test_across[1]
   if (test_across == "sex") {
-    variance_decomposition_background <- variance_decomposition_background[
+    variance_decomposition_background <- prete::variance_decomposition_background[
       type == "by_sex"
     ]
-  } else if (test_across == "population") {
-    variance_decomposition_background <- variance_decomposition_background[
+  } else if (test_across == "ancestry") {
+    variance_decomposition_background <- prete::variance_decomposition_background[
       type == "by_ancestry"
     ]
   } else {
@@ -50,10 +58,20 @@ enrich_protein_characteristics <- function(
   }
 
   if (
-    length(factor_minimum_explained_variance) != 1 &
-      !is.numeric(factor_minimum_explained_variance)
+    length(factor_minimum_explained_variance) != 1 ||
+      !is.numeric(factor_minimum_explained_variance) ||
+    factor_minimum_explained_variance > 1 ||
+    factor_minimum_explained_variance < 0
   ) {
     stop("Please choose a single numeric value between 0-1.")
+  }
+
+  if (
+    length(n_cores) != 1 ||
+    is.na(suppressWarnings(as.integer(n_cores))) ||
+    (n_cores %% 1 != 0)
+  ) {
+    stop("Please choose a valid full number (integer) as the number of cores.")
   }
 
   ## drop associations not passing certain explained variance threshold
@@ -70,8 +88,12 @@ enrich_protein_characteristics <- function(
     ]
   }
 
+  if (nrow(variance_decomposition_background) == 0) {
+    stop("Empty protein background. Please make sure `factor_minimum_explained_variance` is not too stringent or `protein_background` is a subset of `prete::variance_decomposition_background`")
+  }
+
   if (is.null(protein_foreground)) {
-    stop("Need to provide a vector of protein targets to test for enrichment. Check column `mapping_id` of `data(protein_mapping_table)` for a list of accepted protein terms.")
+    stop("Need to provide a vector of protein targets to test for enrichment. Check column `mapping_id` of `prete::protein_mapping_table` for a list of accepted protein terms.")
   }
 
   if (
@@ -80,7 +102,7 @@ enrich_protein_characteristics <- function(
       unique(variance_decomposition_background$protein)
     )
   ) {
-    stop("Not all the proteins supplied in `protein_foreground` found in background data. Please use `check_protein_overlap()` to see the overlap between your input data and the background data.")
+    warning("Not all the proteins supplied in `protein_foreground` found in background data. Please use `check_protein_overlap()` to see the overlap between your input data and the background data. Also make sure `factor_minimum_explained_variance` is not too stringent.")
   }
 
   ## define variables to test for across different populations
@@ -179,11 +201,11 @@ enrich_protein_characteristics <- function(
   ## return list
   enrichment_results <- data.table::rbindlist(enrichment_results, fill = TRUE)
   data.table::setkey(enrichment_results, "variable")
-  data.table::setkey(participant_characteristics_labels, "short_name")
+  data.table::setkey(prete::participant_characteristics_labels, "short_name")
 
   ## add label
   enrichment_results <- enrichment_results[
-    participant_characteristics_labels,
+    prete::participant_characteristics_labels,
     nomatch = NULL
   ]
 

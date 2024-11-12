@@ -7,22 +7,31 @@
 check_protein_overlap(protein_list = NULL, return_missing = FALSE)
 }
 \arguments{
-\item{protein_list}{Vector of strings. List of proteins to test for enrichment. Should be in all lower-case letters. check \code{data(protein_mapping_table)} for the full list of proteins available as background.}
+\item{protein_list}{Vector of strings. List of proteins to test for
+enrichment. Should be in all lower-case letters. check
+\code{data(protein_mapping_table)} for the full list of proteins available as
+background.}
 
-\item{return_missing}{Logical. Defaults to \code{FALSE}. Instead of returning the overlapping proteins (that can be tested for enrichment), return the proteins in the foreground not found in the background data.}
+\item{return_missing}{Logical. Defaults to \code{FALSE}. Instead of returning the
+overlapping proteins (that can be tested for enrichment), return the
+proteins in the foreground not found in the background data.}
 }
 \value{
 Protein identifiers that could be mapped against the available background proteins.
 }
 \description{
-This function...
+Check the overlap between the input list of protein identifiers against the
+available background and return either the matching overlap or the
+non-matching items from the input vector. Check \code{data(protein_mapping_table)}
+for a full overview of all protein identifiers available for enrichment
+analysis including mapping terms like UniProt and Olink ID.
 }
 \examples{
 # All valid proteins
 my_proteins <- c("pcsk9", "apoa4", "lep", "tmprss15", "fam3b")
 check_protein_overlap(my_proteins)
 
-# Some invalid proteins. Returns
+# Some invalid proteins. Returns invalid IDs (i.e. `PCSK9` and `tmprss-15`)
 my_proteins <- c("PCSK9", "apoa4", "Lep", "tmprss-15", "fam3b")
 check_protein_overlap(my_proteins, return_missing = TRUE)
 }

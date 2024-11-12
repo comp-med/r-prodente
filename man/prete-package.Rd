@@ -4,12 +4,17 @@
 \name{prete-package}
 \alias{prete}
 \alias{prete-package}
-\title{prete: What the Package Does (One Line, Title Case)}
+\title{prete: Test for enrichment of UK Biobank Study Characteristics in Protein Lists}
 \description{
 What the package does (one paragraph).
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Carl Beuchel \email{carl.beuchel(at)charite.de} (\href{https://orcid.org/0000-0003-3224-3894}{ORCID})
+
+Authors:
+\itemize{
+  \item Maik Pietzner \email{mark.pietzner(at)bih-charite.de} (\href{https://orcid.org/0000-0003-3437-9963}{ORCID})
+}
 
 }
 \keyword{internal}

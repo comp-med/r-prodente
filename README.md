@@ -3,6 +3,8 @@
 
 # `prete`: Protein Enrichment Testing for UK Biobak Study Characteristics
 
+protein enrichment characteristics
+
 <!-- badges: start -->
 <!-- badges: end -->
 
@@ -11,7 +13,7 @@ immediately accessible and useful.
 
 ## Installation
 
-You can install the development version of `prete` like so:
+You can install the development version of `prete` directly from GitHub:
 
 ``` r
 library(remotes)
