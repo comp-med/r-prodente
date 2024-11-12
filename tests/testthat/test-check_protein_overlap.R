@@ -25,7 +25,7 @@ test_that("Fails on incorrect input type", {
 test_that("Fails on empty input", {
   expect_error(
     check_protein_overlap(),
-    "Need to provide a vector of protein targets to test for enrichment. Check column `mapping_id` of `prete::protein_mapping_table` for a list of accepted protein terms."
+    "Need to provide a vector of protein targets to test for enrichment. Check column `mapping_id` of `prodente::protein_mapping_table` for a list of accepted protein terms."
     )
 })
 test_that("Returning missing entries from input works", {

@@ -1,14 +1,14 @@
 #' Test for enrichment of proteins in UK Biobank participant characteristics
 #'
 #' Perform enrichment analysis with a list of input protein identifiers. Check
-#' column `mapping_id` of the included data object `prete::protein_mapping_table`
+#' column `mapping_id` of the included data object `prodente::protein_mapping_table`
 #' for a full overview of protein identifiers that can be submitted for
 #' enrichment analysis.
 #'
 #' @param protein_foreground Vector of strings. Vector of all lowercase protein
 #'   targets to test enrichment for. Use `check_protein_overlap` to get only
 #'   proteins available in the background data or check manually against column
-#'   `mapping_id` of `prete::protein_mapping_table`.
+#'   `mapping_id` of `prodente::protein_mapping_table`.
 #' @param factor_minimum_explained_variance Numeric. Defaults to `0`. Value
 #'   between 0-1 to require a minimum of explained variance by certain factors
 #'   to be considered.
@@ -46,11 +46,11 @@ enrich_protein_characteristics <- function(
 
   test_across <- test_across[1]
   if (test_across == "sex") {
-    variance_decomposition_background <- prete::variance_decomposition_background[
+    variance_decomposition_background <- prodente::variance_decomposition_background[
       type == "by_sex"
     ]
   } else if (test_across == "ancestry") {
-    variance_decomposition_background <- prete::variance_decomposition_background[
+    variance_decomposition_background <- prodente::variance_decomposition_background[
       type == "by_ancestry"
     ]
   } else {
@@ -89,11 +89,11 @@ enrich_protein_characteristics <- function(
   }
 
   if (nrow(variance_decomposition_background) == 0) {
-    stop("Empty protein background. Please make sure `factor_minimum_explained_variance` is not too stringent or `protein_background` is a subset of `prete::variance_decomposition_background`")
+    stop("Empty protein background. Please make sure `factor_minimum_explained_variance` is not too stringent or `protein_background` is a subset of `prodente::variance_decomposition_background`")
   }
 
   if (is.null(protein_foreground)) {
-    stop("Need to provide a vector of protein targets to test for enrichment. Check column `mapping_id` of `prete::protein_mapping_table` for a list of accepted protein terms.")
+    stop("Need to provide a vector of protein targets to test for enrichment. Check column `mapping_id` of `prodente::protein_mapping_table` for a list of accepted protein terms.")
   }
 
   if (
@@ -166,7 +166,7 @@ enrich_protein_characteristics <- function(
       )
 
       ## test for enrichment
-      enr <- fisher.test(matrix(c(d1, d2, d3, d4), 2, 2, byrow = T))
+      enr <- stats::fisher.test(matrix(c(d1, d2, d3, d4), 2, 2, byrow = T))
 
       intersection <- variance_decomposition_background[
           variable == variable_id &
@@ -201,11 +201,11 @@ enrich_protein_characteristics <- function(
   ## return list
   enrichment_results <- data.table::rbindlist(enrichment_results, fill = TRUE)
   data.table::setkey(enrichment_results, "variable")
-  data.table::setkey(prete::participant_characteristics_labels, "short_name")
+  data.table::setkey(prodente::participant_characteristics_labels, "short_name")
 
   ## add label
   enrichment_results <- enrichment_results[
-    prete::participant_characteristics_labels,
+    prodente::participant_characteristics_labels,
     nomatch = NULL
   ]
 

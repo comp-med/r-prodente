@@ -7,12 +7,12 @@ test_that("Fails on empty input", {
 })
 test_that("Fails when population column contains more than one value", {
   expect_error({
-    plot_enrichment_results(prete:::test_fail_data_group_enrichment)
+    plot_enrichment_results(prodente:::test_fail_data_group_enrichment)
     },
     "Please specify which population to plot. Find available values in the `population` column of the enrichment results."
   )
   expect_error({
-    plot_enrichment_results(prete:::test_fail_data_group_enrichment, plot_population = c("All", "Male"))
+    plot_enrichment_results(prodente:::test_fail_data_group_enrichment, plot_population = c("All", "Male"))
     },
     "Please specify which population to plot. Find available values in the `population` column of the enrichment results."
   )
@@ -20,7 +20,7 @@ test_that("Fails when population column contains more than one value", {
 test_that("Fails when no variables are enriched", {
   expect_error({
     plot_enrichment_results(
-      enrichment_results = prete:::test_fail_data_group_enrichment,
+      enrichment_results = prodente:::test_fail_data_group_enrichment,
       plot_population = "All")
     },
     "No enriched variables to plot."

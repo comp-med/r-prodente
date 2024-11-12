@@ -1,23 +1,22 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# `prete`: Protein Enrichment Testing for UK Biobak Study Characteristics
-
-protein enrichment characteristics
+# `prodente`: **Pro**tein **De**terminants **En**richment **Tes**ting for UK Biobak Study Characteristics
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of prete is to make results from an upcoming publication
+The goal of `prodente` is to make results from an upcoming publication
 immediately accessible and useful.
 
 ## Installation
 
-You can install the development version of `prete` directly from GitHub:
+You can install the development version of `prodente` directly from
+GitHub:
 
 ``` r
 library(remotes)
-install_github("comp-med/prete")
+install_github("comp-med/prodente")
 ```
 
 ## Getting Started
@@ -27,12 +26,7 @@ working with the results table more convenient. Each important results
 object is immediately available as accessible data.
 
 ``` r
-library(prete)
-
-# 
-data(participant_characteristics_labels)
-data(protein_mapping_table)
-data(variance_decomposition_background)
+library(prodente)
 ```
 
 ``` r

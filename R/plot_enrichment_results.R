@@ -29,7 +29,7 @@ plot_enrichment_results <- function(
   }
 
   # variables enriched at least once
-  enrichment_results[, p_adjust := p.adjust(pval, method = (pvalue_adjustment))]
+  enrichment_results[, p_adjust := stats::p.adjust(pval, method = (pvalue_adjustment))]
   enriched_variables <-  enrichment_results[
     (p_adjust < (0.05)) & (or > 1),
     unique(label)

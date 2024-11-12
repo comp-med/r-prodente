@@ -1,4 +1,4 @@
-Package: prete
+Package: prodente
 Title: Test for enrichment of UK Biobank Study Characteristics in Protein Lists
 Version: 0.0.0.9000
 Authors@R: c(

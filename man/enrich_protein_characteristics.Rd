@@ -16,7 +16,7 @@ enrich_protein_characteristics(
 \item{protein_foreground}{Vector of strings. Vector of all lowercase protein
 targets to test enrichment for. Use \code{check_protein_overlap} to get only
 proteins available in the background data or check manually against column
-\code{mapping_id} of \code{prete::protein_mapping_table}.}
+\code{mapping_id} of \code{prodente::protein_mapping_table}.}
 
 \item{factor_minimum_explained_variance}{Numeric. Defaults to \code{0}. Value
 between 0-1 to require a minimum of explained variance by certain factors
@@ -37,7 +37,7 @@ A data.table object.
 }
 \description{
 Perform enrichment analysis with a list of input protein identifiers. Check
-column \code{mapping_id} of the included data object \code{prete::protein_mapping_table}
+column \code{mapping_id} of the included data object \code{prodente::protein_mapping_table}
 for a full overview of protein identifiers that can be submitted for
 enrichment analysis.
 }

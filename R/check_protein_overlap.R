@@ -2,13 +2,13 @@
 #'
 #' Check the overlap between the input list of protein identifiers against the
 #' available background and return either the matching overlap or the
-#' non-matching items from the input vector. Check `prete::protein_mapping_table`
+#' non-matching items from the input vector. Check `prodente::protein_mapping_table`
 #' for a full overview of all protein identifiers available for enrichment
 #' analysis including mapping terms like UniProt and Olink ID.
 #'
 #' @param protein_list Vector of strings. List of proteins to test for
 #'   enrichment. Should be in all lower-case letters. Check
-#'   `prete::protein_mapping_table` for the full list of proteins available as
+#'   `prodente::protein_mapping_table` for the full list of proteins available as
 #'   background.
 #' @param return_missing Logical. Defaults to `FALSE`. Instead of returning the
 #'   overlapping proteins (that can be tested for enrichment), return the
@@ -33,7 +33,7 @@ check_protein_overlap <- function(
 ) {
 
   if (is.null(protein_list)) {
-    stop("Need to provide a vector of protein targets to test for enrichment. Check column `mapping_id` of `prete::protein_mapping_table` for a list of accepted protein terms.")
+    stop("Need to provide a vector of protein targets to test for enrichment. Check column `mapping_id` of `prodente::protein_mapping_table` for a list of accepted protein terms.")
   }
 
   if (!is.character(protein_list)) {
@@ -41,11 +41,11 @@ check_protein_overlap <- function(
   }
 
   protein_overlap <- protein_list[
-    protein_list %in% prete::protein_mapping_table$mapping_id
+    protein_list %in% prodente::protein_mapping_table$mapping_id
   ]
 
   missing_proteins <- protein_list[
-    !(protein_list %in% prete::protein_mapping_table$mapping_id)
+    !(protein_list %in% prodente::protein_mapping_table$mapping_id)
   ]
 
   if (isTRUE(return_missing)) {

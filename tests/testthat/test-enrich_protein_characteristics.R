@@ -48,13 +48,13 @@ test_that("Returns `data.table` with expected column names on correct input.", {
 test_that("Fails when `factor_minimum_explained_variance` is too stringent and background is of length 0", {
   expect_error(
     enrich_protein_characteristics("pcsk9", factor_minimum_explained_variance = 1),
-    "Empty protein background. Please make sure `factor_minimum_explained_variance` is not too stringent or `protein_background` is a subset of `prete::variance_decomposition_background`"
+    "Empty protein background. Please make sure `factor_minimum_explained_variance` is not too stringent or `protein_background` is a subset of `prodente::variance_decomposition_background`"
     )
 })
 test_that("Fails on bad user-supplied background", {
   expect_error(
     enrich_protein_characteristics("pcsk9", protein_background = c("bad")),
-    "Empty protein background. Please make sure `factor_minimum_explained_variance` is not too stringent or `protein_background` is a subset of `prete::variance_decomposition_background`"
+    "Empty protein background. Please make sure `factor_minimum_explained_variance` is not too stringent or `protein_background` is a subset of `prodente::variance_decomposition_background`"
     )
 })
 test_that("Fails when wrong `test_across` is given", {
@@ -71,7 +71,7 @@ test_that("Multi-threading works (when available on machine)", {
 test_that("Fails without any input", {
   expect_error(
     enrich_protein_characteristics(),
-    "Need to provide a vector of protein targets to test for enrichment. Check column `mapping_id` of `prete::protein_mapping_table` for a list of accepted protein terms."
+    "Need to provide a vector of protein targets to test for enrichment. Check column `mapping_id` of `prodente::protein_mapping_table` for a list of accepted protein terms."
     )
 })
 test_that("Fails with wrong type for `n_cores`", {

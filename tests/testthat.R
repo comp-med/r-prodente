@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(prete)
+library(prodente)
 
-test_check("prete")
+test_check("prodente")

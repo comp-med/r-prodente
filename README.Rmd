@@ -13,23 +13,21 @@ knitr::opts_chunk$set(
 )
 ```
 
-# `prete`: Protein Enrichment Testing for  UK Biobak Study Characteristics
-
-protein enrichment characteristics
+# `prodente`: **Pro**tein **De**terminants **En**richment **Tes**ting for UK Biobak Study Characteristics
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of prete is to make results from an upcoming publication immediately accessible and useful.
+The goal of `prodente` is to make results from an upcoming publication immediately accessible and useful.
 
 
 ## Installation
 
-You can install the development version of `prete` directly from GitHub:
+You can install the development version of `prodente` directly from GitHub:
 
 ```{r, eval=FALSE}
 library(remotes)
-install_github("comp-med/prete")
+install_github("comp-med/prodente")
 ```
 
 ## Getting Started
@@ -37,12 +35,8 @@ install_github("comp-med/prete")
 The API consists only of a hand-full of functions that mostly make working with the results table more convenient. Each important results object is immediately available as accessible data. 
 
 ```{r, eval=FALSE}
-library(prete)
+library(prodente)
 
-# 
-data(participant_characteristics_labels)
-data(protein_mapping_table)
-data(variance_decomposition_background)
 ```
 
 
