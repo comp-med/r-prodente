@@ -43,15 +43,16 @@ library(prodente)
 # There is example data provided
 fasting_study_results <- prodente::fasting_study_results
 
-# Also make sure to check the protein mapping table
-head(prodente::protein_mapping_table)
-
 # It is important to check that protein identifiers of your data are available
 # in the background data.
-fasting_study_results[
-  !(protein_id %in% prodente::protein_mapping_table$mapping_id),
-  .N
-]
+check_protein_overlap(fasting_study_results$protein_id, return_missing = TRUE)
+
+
+# Make sure to check the provided mapping table in case you have missing
+# proteins. Maybe they are in the data but formatted slightly differently.
+# Additionally, the table provides Olink IDs and UniProt IDs to make matching 
+# easier
+head(prodente::protein_mapping_table)
 ```
 
 Enrichment tests can be stratified by sex or genetic ancestry. Set the

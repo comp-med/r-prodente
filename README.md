@@ -33,7 +33,16 @@ library(prodente)
 # There is example data provided
 fasting_study_results <- prodente::fasting_study_results
 
-# Also make sure to check the protein mapping table
+# It is important to check that protein identifiers of your data are available
+# in the background data.
+check_protein_overlap(fasting_study_results$protein_id, return_missing = TRUE)
+#> character(0)
+
+
+# Make sure to check the provided mapping table in case you have missing
+# proteins. Maybe they are in the data but formatted slightly differently.
+# Additionally, the table provides Olink IDs and UniProt IDs to make matching 
+# easier
 head(prodente::protein_mapping_table)
 #>    mapping_id           panel olink_id    assay uniprot hgnc_symbol
 #>        <char>          <char>   <char>   <char>  <char>      <char>
@@ -43,14 +52,6 @@ head(prodente::protein_mapping_table)
 #> 4:        ca4 Cardiometabolic OID20241      CA4  P22748         CA4
 #> 5:      casp3 Cardiometabolic OID20305    CASP3  P42574       CASP3
 #> 6:      ccl15 Cardiometabolic OID20328    CCL15  Q16663       CCL15
-
-# It is important to check that protein identifiers of your data are available
-# in the background data.
-fasting_study_results[
-  !(protein_id %in% prodente::protein_mapping_table$mapping_id),
-  .N
-]
-#> [1] 0
 ```
 
 Enrichment tests can be stratified by sex or genetic ancestry. Set the
