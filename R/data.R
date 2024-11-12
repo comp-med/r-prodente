@@ -31,3 +31,14 @@
 #'
 #' @source <TODO_ADD_LINK>
 "variance_decomposition_background"
+
+#' Fasting Study Example Data
+#'
+#' Plasma proteins that show significant difference in abundance compared to
+#' baseline after prolonged fasting. Day 10 is after recovery from fasting.
+#'
+#' @format ## `fasting_study_results`
+#' A data frame with X rows and Y columns
+#'
+#' @source <TODO_ADD_LINK>
+"fasting_study_results"
