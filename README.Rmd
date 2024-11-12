@@ -47,7 +47,6 @@ fasting_study_results <- prodente::fasting_study_results
 # in the background data.
 check_protein_overlap(fasting_study_results$protein_id, return_missing = TRUE)
 
-
 # Make sure to check the provided mapping table in case you have missing
 # proteins. Maybe they are in the data but formatted slightly differently.
 # Additionally, the table provides Olink IDs and UniProt IDs to make matching 
