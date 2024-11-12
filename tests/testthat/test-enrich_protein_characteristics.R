@@ -26,7 +26,7 @@ test_that("Fails on wrong input for `factor_minimum_explained_variance`", {
 test_that("Returns warning when elements in foreground are not found in background.", {
   expect_warning(
     enrich_protein_characteristics(c("pcsk9", "ANXA10")),
-    "Not all the proteins supplied in `protein_foreground` found in background data. Please use `check_protein_overlap()` to see the overlap between your input data and the background data. Also make sure `factor_minimum_explained_variance` is not too stringent."
+    "Not all the proteins supplied in `protein_foreground` found in background data. Please use `check_protein_overlap()` to see the overlap between your input data and the background data. Also make sure `factor_minimum_explained_variance` is not too stringent.", fixed = TRUE
     )
 })
 test_that("Returns `data.table` object on default parameters and correct input.", {
@@ -65,7 +65,7 @@ test_that("Fails when wrong `test_across` is given", {
 })
 test_that("Multi-threading works (when available on machine)", {
   expect_no_error(
-    enrich_protein_characteristics("pcsk9", n_cores = parallel::detectCores()),
+    enrich_protein_characteristics("pcsk9", n_cores = 2),
     )
 })
 test_that("Fails without any input", {

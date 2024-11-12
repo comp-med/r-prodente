@@ -1,13 +1,13 @@
 test_that("Fails on empty input", {
   expect_error(
     enrichment_test_across_groups(),
-    "Please supply unique and non-empty names to each element of protein_foreground_list."
+    "Please supply named list containing protein identifiers for each testing group."
   )
 })
 test_that("Fails on wrongly formatted single-group input", {
   expect_error(
     enrichment_test_across_groups(protein_foreground_list = c("pcsk9")),
-    "Please supply unique and non-empty names to each element of protein_foreground_list."
+    "Please supply named list containing protein identifiers for each testing group."
   )
 })
 test_that("Fails on incompletely named input list", {
