@@ -33,17 +33,19 @@ test_that("Selected and unselected foreground always add up to the number of pro
   expect_equal(
     {
       res <- enrich_protein_characteristics(
-        c("pcsk9", "anxa10", "bpifa2", "alcam")
-      )
+          c("pcsk9", "anxa10", "bpifa2", "alcam")
+        )
       unique(res[, rowSums(.SD), .SDcols = c("d1", "d3")])
     },
     4
   )
   expect_equal(
     {
-      res <- enrich_protein_characteristics(
-        c("pcsk9", "anxa10", "bpifa2", "alcam", "MISSING1", "MISSING2")
+      res <- suppressWarnings( # Code will warn about "MISSING1/2", ignore that!
+        enrich_protein_characteristics(
+          c("pcsk9", "anxa10", "bpifa2", "alcam", "MISSING1", "MISSING2")
         )
+      )
       unique(res[, rowSums(.SD), .SDcols = c("d1", "d3")])
     },
     4
@@ -53,12 +55,14 @@ test_that("Selected and unselected foreground always add up to the number of pro
 test_that("Selected and unselected foreground always add up to the number of proteins actually present in background data when restricting background", {
   expect_equal(
     {
-      res <- enrich_protein_characteristics(
-        protein_foreground = c("pcsk9", "anxa10", "bpifa2", "alcam", "MISSING1", "MISSING2"),
-        protein_background = prodente::protein_mapping_table$mapping_id[
-          !(prodente::protein_mapping_table$mapping_id %in% c("bpifa2", "alcam"))
-        ]
+      res <- suppressWarnings(
+        enrich_protein_characteristics(
+          protein_foreground = c("pcsk9", "anxa10", "bpifa2", "alcam", "MISSING1", "MISSING2"),
+          protein_background = prodente::protein_mapping_table$mapping_id[
+            !(prodente::protein_mapping_table$mapping_id %in% c("bpifa2", "alcam"))
+          ]
         )
+      )
       unique(res[, rowSums(.SD), .SDcols = c("d1", "d3")])
     },
     2
