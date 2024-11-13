@@ -106,7 +106,9 @@ enrich_protein_characteristics <- function(
       unique(variance_decomposition_background$protein)
     )
   ) {
-    protein_foreground <- check_protein_overlap(protein_foreground)
+    protein_foreground <- protein_foreground[
+      protein_foreground %in% unique(variance_decomposition_background$protein)
+      ]
     warning("Not all the proteins supplied in `protein_foreground` found in background data. Please use `check_protein_overlap()` to see the overlap between your input data and the background data. Also make sure `factor_minimum_explained_variance` is not too stringent. Non-matching proteins were removed from the foreground.")
   }
 
@@ -119,6 +121,10 @@ enrich_protein_characteristics <- function(
 
   ## reduce to at least five variables
   variable_tests <- variable_tests[variable_frequency >= 5]
+
+  if (nrow(variable_tests) == 0) {
+    stop("No variable with at least five selected proteins in background data. Is your background too small?")
+  }
 
   ## perform enrichment by variable and population
   enrichment_results <- parallel::mclapply(

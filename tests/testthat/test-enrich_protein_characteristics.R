@@ -29,6 +29,53 @@ test_that("Returns warning when elements in foreground are not found in backgrou
     "Not all the proteins supplied in `protein_foreground` found in background data. Please use `check_protein_overlap()` to see the overlap between your input data and the background data. Also make sure `factor_minimum_explained_variance` is not too stringent. Non-matching proteins were removed from the foreground.", fixed = TRUE
     )
 })
+test_that("Selected and unselected foreground always add up to the number of proteins actually present in background data.", {
+  expect_equal(
+    {
+      res <- enrich_protein_characteristics(
+        c("pcsk9", "anxa10", "bpifa2", "alcam")
+      )
+      unique(res[, rowSums(.SD), .SDcols = c("d1", "d3")])
+    },
+    4
+  )
+  expect_equal(
+    {
+      res <- enrich_protein_characteristics(
+        c("pcsk9", "anxa10", "bpifa2", "alcam", "MISSING1", "MISSING2")
+        )
+      unique(res[, rowSums(.SD), .SDcols = c("d1", "d3")])
+    },
+    4
+  )
+}
+)
+test_that("Selected and unselected foreground always add up to the number of proteins actually present in background data when restricting background", {
+  expect_equal(
+    {
+      res <- enrich_protein_characteristics(
+        protein_foreground = c("pcsk9", "anxa10", "bpifa2", "alcam", "MISSING1", "MISSING2"),
+        protein_background = prodente::protein_mapping_table$mapping_id[
+          !(prodente::protein_mapping_table$mapping_id %in% c("bpifa2", "alcam"))
+        ]
+        )
+      unique(res[, rowSums(.SD), .SDcols = c("d1", "d3")])
+    },
+    2
+  )
+}
+)
+test_that("Fails when no variable in background has at least 5 selected proteins.", {
+  expect_error(
+    enrich_protein_characteristics(
+      protein_foreground = c("pcsk9", "anxa10"),
+      protein_background = c("pcsk9", "anxa10")
+    ),
+    "No variable with at least five selected proteins in background data. Is your background too small?",
+    fixed = TRUE
+  )
+})
+
 test_that("Fails when no elements in foreground was found in background.", {
   expect_error(
     enrich_protein_characteristics(c("PCSK9", "ANXA10")),
