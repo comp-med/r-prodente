@@ -106,7 +106,8 @@ enrich_protein_characteristics <- function(
       unique(variance_decomposition_background$protein)
     )
   ) {
-    warning("Not all the proteins supplied in `protein_foreground` found in background data. Please use `check_protein_overlap()` to see the overlap between your input data and the background data. Also make sure `factor_minimum_explained_variance` is not too stringent.")
+    protein_foreground <- check_protein_overlap(protein_foreground)
+    warning("Not all the proteins supplied in `protein_foreground` found in background data. Please use `check_protein_overlap()` to see the overlap between your input data and the background data. Also make sure `factor_minimum_explained_variance` is not too stringent. Non-matching proteins were removed from the foreground.")
   }
 
   ## define variables to test for across different populations

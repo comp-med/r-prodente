@@ -26,7 +26,7 @@ test_that("Fails on wrong input for `factor_minimum_explained_variance`", {
 test_that("Returns warning when elements in foreground are not found in background.", {
   expect_warning(
     enrich_protein_characteristics(c("pcsk9", "ANXA10")),
-    "Not all the proteins supplied in `protein_foreground` found in background data. Please use `check_protein_overlap()` to see the overlap between your input data and the background data. Also make sure `factor_minimum_explained_variance` is not too stringent.", fixed = TRUE
+    "Not all the proteins supplied in `protein_foreground` found in background data. Please use `check_protein_overlap()` to see the overlap between your input data and the background data. Also make sure `factor_minimum_explained_variance` is not too stringent. Non-matching proteins were removed from the foreground.", fixed = TRUE
     )
 })
 test_that("Fails when no elements in foreground was found in background.", {
