@@ -96,6 +96,10 @@ enrich_protein_characteristics <- function(
     stop("Need to provide a vector of protein targets to test for enrichment. Check column `mapping_id` of `prodente::protein_mapping_table` for a list of accepted protein terms.")
   }
 
+  if (length(check_protein_overlap(protein_foreground)) == 0) {
+    stop("None of the supplied proteins in `protein_foreground` found in background data. Please use `check_protein_overlap()` to see the overlap between your input data and the background data. Also make sure `factor_minimum_explained_variance` is not too stringent.")
+  }
+
   if (
     !all(
       protein_foreground %in%

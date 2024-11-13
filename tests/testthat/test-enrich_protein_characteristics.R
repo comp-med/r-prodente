@@ -29,6 +29,12 @@ test_that("Returns warning when elements in foreground are not found in backgrou
     "Not all the proteins supplied in `protein_foreground` found in background data. Please use `check_protein_overlap()` to see the overlap between your input data and the background data. Also make sure `factor_minimum_explained_variance` is not too stringent.", fixed = TRUE
     )
 })
+test_that("Fails when no elements in foreground was found in background.", {
+  expect_error(
+    enrich_protein_characteristics(c("PCSK9", "ANXA10")),
+    "None of the supplied proteins in `protein_foreground` found in background data. Please use `check_protein_overlap()` to see the overlap between your input data and the background data. Also make sure `factor_minimum_explained_variance` is not too stringent.", fixed = TRUE
+    )
+})
 test_that("Returns `data.table` object on default parameters and correct input.", {
   expect_equal(
     class(enrich_protein_characteristics("pcsk9")),
