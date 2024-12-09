@@ -7,7 +7,7 @@ Authors@R: c(
     person("Maik", "Pietzner", email = "mark.pietzner@bih-charite.de", role = c("aut"),
            comment = c(ORCID = "0000-0003-3437-9963"))
            )
-Description: What the package does (one paragraph).
+Description: Companion package for the publication (#TODO#).
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -16,7 +16,7 @@ Imports:
     data.table,
     ggplot2
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5)
 LazyData: true
 Suggests: 
     testthat (>= 3.0.0)

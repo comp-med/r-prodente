@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# `prodente`: **Pro**tein **De**terminants **En**richment **Tes**ting
+# `prodente`: **Pro**tein **D**eterminants **En**richment **Te**sting
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -104,3 +104,15 @@ enrichment_plot <- plot_enrichment_results(
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+
+### Accessing the data
+
+To access the data provided in the package, use the
+`prodente::<DATA_OBJECT>` notation.
+
+``` r
+fasting_study_results <- prodente::fasting_study_results
+participant_characteristics_labels <- prodente::participant_characteristics_labels
+protein_mapping_table <- prodente::protein_mapping_table
+variance_decomposition_background <- prodente::variance_decomposition_background
+```

@@ -6,7 +6,7 @@
 \alias{prodente-package}
 \title{prodente: Test for enrichment of UK Biobank Study Characteristics in Protein Lists}
 \description{
-What the package does (one paragraph).
+Companion package for the publication (#TODO#).
 }
 \author{
 \strong{Maintainer}: Carl Beuchel \email{carl.beuchel@charite.de} (\href{https://orcid.org/0000-0003-3224-3894}{ORCID})
