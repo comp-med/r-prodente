@@ -1,3 +1,0 @@
-data/participant_characteristics_labels.rda filter=lfs diff=lfs merge=lfs -text
-data/protein_mapping_table.rda filter=lfs diff=lfs merge=lfs -text
-data/variance_decomposition_background.rda filter=lfs diff=lfs merge=lfs -text
