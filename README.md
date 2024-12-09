@@ -4,6 +4,8 @@
 # `prodente`: **Pro**tein **D**eterminants **En**richment **Te**sting
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/comp-med/r-prodente/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/comp-med/r-prodente/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of `prodente` is to make results from an upcoming publication
