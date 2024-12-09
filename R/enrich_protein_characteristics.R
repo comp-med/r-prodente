@@ -44,14 +44,6 @@ enrich_protein_characteristics <- function(
     n_cores = 1
     ) {
 
-  # Fix number of cores to 1 when running on windows
-  os_used <- Sys.info()[["sysname"]]
-  if (os_used == "Windows" & n_cores > 1) {
-    message("`mclapply` is not supported on Windows. Setting `n_cores` to 1.")
-    n_cores <- 1
-  }
-
-
   test_across <- test_across[1]
   if (test_across == "sex") {
     variance_decomposition_background <- prodente::variance_decomposition_background[
@@ -80,6 +72,13 @@ enrich_protein_characteristics <- function(
     (n_cores %% 1 != 0)
   ) {
     stop("Please choose a valid full number (integer) as the number of cores.")
+  }
+
+  # Fix number of cores to 1 when running on windows
+  os_used <- Sys.info()[["sysname"]]
+  if (os_used == "Windows" & n_cores > 1) {
+    message("`mclapply` is not supported on Windows. Setting `n_cores` to 1.")
+    n_cores <- 1
   }
 
   ## drop associations not passing certain explained variance threshold
