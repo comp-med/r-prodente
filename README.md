@@ -6,7 +6,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `prodente` is to make results from an upcoming publication
+The goal of `prodente` is to make results from the preprint
+[`Machine learning-guided deconvolution of plasma protein levels`](https://doi.org/10.1101/2025.01.09.25320257)
 immediately accessible and useful. This package contains functions to
 easily test a list of proteins for enrichment of UK Biobank study
 characteristics.
