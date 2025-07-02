@@ -46,11 +46,11 @@ enrich_protein_characteristics <- function(
 
   test_across <- test_across[1]
   if (test_across == "sex") {
-    variance_decomposition_background <- prodente::variance_decomposition_background[
+    variance_decomposition_background <- get("variance_decomposition_background", envir = asNamespace("prodente"))[
       type == "by_sex"
     ]
   } else if (test_across == "ancestry") {
-    variance_decomposition_background <- prodente::variance_decomposition_background[
+    variance_decomposition_background <- get("variance_decomposition_background", envir = asNamespace("prodente"))[
       type == "by_ancestry"
     ]
   } else {
