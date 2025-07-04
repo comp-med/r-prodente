@@ -36,7 +36,7 @@ object is immediately available as accessible data.
 ``` r
 library(prodente)
 
-# There is example data provided. The protein 
+# There is example data provided.
 fasting_study_results <- prodente::fasting_study_results
 
 # It is important to check that protein identifiers of your data are available
@@ -55,7 +55,23 @@ head(fasting_study_results$protein_id)
 # proteins. Maybe they are in the data but formatted slightly differently.
 # Additionally, the table provides Olink IDs and UniProt IDs to make matching
 # easier.
-#
+head(prodente::protein_mapping_table)
+#>    mapping_id           panel olink_id    assay uniprot hgnc_symbol
+#>        <char>          <char>   <char>   <char>  <char>      <char>
+#> 1:   adamts13 Cardiometabolic OID20249 ADAMTS13  Q76LX8    ADAMTS13
+#> 2:      alcam Cardiometabolic OID20273    ALCAM  Q13740       ALCAM
+#> 3:       blmh Cardiometabolic OID20336     BLMH  Q13867        BLMH
+#> 4:        ca4 Cardiometabolic OID20241      CA4  P22748         CA4
+#> 5:      casp3 Cardiometabolic OID20305    CASP3  P42574       CASP3
+#> 6:      ccl15 Cardiometabolic OID20328    CCL15  Q16663       CCL15
+#>    mapping_id           panel olink_id    assay uniprot hgnc_symbol
+#>        <char>          <char>   <char>   <char>  <char>      <char>
+#> 1:   adamts13 Cardiometabolic OID20249 ADAMTS13  Q76LX8    ADAMTS13
+#> 2:      alcam Cardiometabolic OID20273    ALCAM  Q13740       ALCAM
+#> 3:       blmh Cardiometabolic OID20336     BLMH  Q13867        BLMH
+#> 4:        ca4 Cardiometabolic OID20241      CA4  P22748         CA4
+#> 5:      casp3 Cardiometabolic OID20305    CASP3  P42574       CASP3
+#> 6:      ccl15 Cardiometabolic OID20328    CCL15  Q16663       CCL15
 ```
 
 Enrichment tests can be stratified by sex or genetic ancestry. Set the
@@ -65,7 +81,7 @@ Enrichment tests can be stratified by sex or genetic ancestry. Set the
 ``` r
 # Run enrichment tests for a list of proteins
 results <- enrich_protein_characteristics(
-  protein_foreground = fasting_study_results[group == "day_1", protein_id],
+  protein_foreground = fasting_study_results[group == "day_3", protein_id],
   factor_minimum_explained_variance = 0,
   test_across = "sex",
   n_cores = 8
@@ -73,14 +89,14 @@ results <- enrich_protein_characteristics(
 
 # The output is a data.table with enrichment results
 head(results[p_adjust < 0.05 & or > 5, .(population, label)])
-#>    population           label
-#>        <char>          <char>
-#> 1:        All    Fasting time
-#> 2:     Female    Fasting time
-#> 3:     Female  Poultry intake
-#> 4:        All Total bilirubin
-#> 5:     Female Total bilirubin
-#> 6:       Male Total bilirubin
+#>    population        label
+#>        <char>       <char>
+#> 1:     Female      Digoxin
+#> 2:     Female  Simvastatin
+#> 3:        All Atorvastatin
+#> 4:     Female Atorvastatin
+#> 5:        All Fasting time
+#> 6:     Female Fasting time
 
 # The results table contains the following columns:
 #
@@ -117,15 +133,35 @@ group_results <- enrichment_test_across_groups(
   test_across = "sex", 
   n_cores = 8
 )
+```
 
-# You can plot enrichment results for a single subgroup (within either `sex` or `ancestry`)
+Enrichment test output can be plotted using the function
+`plot_enrichment_results()`.
+
+``` r
+# You can plot enrichment results for a single population (within either `sex`
+# or `ancestry`).
 enrichment_plot <- plot_enrichment_results(
   group_results,
   plot_population = "All"
 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+
+``` r
+
+# The plot function looks for a 'group' column in the results table, so if you
+# want to plot results from enrich_protein_characteristics() function, first
+# add a 'group' column to the results.
+results$group <- "day_3"
+enrichment_plot <- plot_enrichment_results(
+  results,
+  plot_population = "All"
+)
+```
+
+<img src="man/figures/README-unnamed-chunk-6-2.png" width="100%" />
 
 ### Accessing the data
 

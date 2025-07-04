@@ -98,7 +98,7 @@ test_that("Returns `data.table` with expected column names on correct input.", {
     c(
       "population", "variable", "or", "pval", "intersection", "d1",
       "d2", "d3", "d4", "category", "id", "column_name", "label", "released",
-      "type", "category_sort"
+      "type", "category_sort", "p_adjust"
     )
   )
 })
