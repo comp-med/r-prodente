@@ -14,8 +14,7 @@ immediately accessible and useful. This package contains functions to
 easily test a list of proteins for enrichment of UK Biobank study
 characteristics. It uses Fisher’s exact test to assess enrichment of
 input proteins (or groups of proteins) for explanatory characteristics
-(e.g. diseases, drugs, genetics). The test can be stratified by sex or
-ancestry.
+(e.g. diseases, drugs, genetics).
 
 ## Installation
 
@@ -46,10 +45,9 @@ check_protein_overlap(fasting_study_results$protein_id, return_missing = TRUE)
 
 # The input should be a vector of protein names in lowercase (or a list of
 # vectors for enrichment tests across groups)
-
 head(fasting_study_results$protein_id)
 #> [1] "pcsk9"    "apoa4"    "lep"      "tmprss15" "fam3b"    "tnr"
-#
+
 # Make sure to check the provided mapping table in case you have missing
 # proteins. Maybe they are in the data but formatted slightly differently.
 # Additionally, the table provides Olink IDs and UniProt IDs to make matching
@@ -65,9 +63,37 @@ head(prodente::protein_mapping_table)
 #> 6:      ccl15 Cardiometabolic OID20328    CCL15  Q16663       CCL15
 ```
 
+## Running Enrichment Tests
+
 Enrichment tests can be stratified by sex or genetic ancestry. Set the
 `test_across` parameter of the function
 `enrich_protein_characteristics()` to do so.
+
+The results table returned includes the following columns:
+
+**population**: The sex or ancestry group enrichment was tested in (or
+‘All’)  
+**variable**: Identifier of the explanatory characteristic tested for
+enrichment  
+**or**: Odds ratio of the enrichment test  
+**pval**: Raw p-value from Fisher’s exact test  
+**intersection**: Proteins both in the input and explained by the
+variable  
+**d1 to d4**: Counts from the 2×2 contingency table used for Fisher’s
+exact test  
+**category**: Category of the characteristic (e.g. “Diseases”)  
+**id**: UK Biobank field ID of the variable (if applicable)  
+**column_name**: Column name in UK Biobank format  
+**label**: Human-readable label for the characteristic (e.g. “Fasting
+time”)  
+**released**: Logical indicating whether the variable is released in UK
+Biobank  
+**type**: Data type of the characteristic (e.g. “numeric”, “factor”)  
+**category_sort**: Used for ordering categories  
+**p_adjust**: Bonferroni-adjusted p-value (adjusted within each
+population)  
+***group***: *The group name of proteins tested for enrichment (only
+when testing groups)*
 
 ``` r
 # Run enrichment tests for a list of proteins
@@ -88,27 +114,17 @@ head(results[p_adjust < 0.05 & or > 5, .(population, label)])
 #> 4:     Female Atorvastatin
 #> 5:        All Fasting time
 #> 6:     Female Fasting time
-
-# The results table contains the following columns:
-#
-# "population": The sex or ancestry group the enrichment was tested in
-# "variable": The identifier of characteristic that was tested for enrichment
-# "or": Odds ratio of the enrichment test
-# "pval": P-value of the enrichment test
-# "intersection": Proteins in both foreground and explained by the variable
-# "d1" - "d4": Values in the 2x2 contingency table
-# "category": Category of the variable (e.g. "Diseases", "Drugs", "Technical")
-# "id": UK Biobank identifier of the characteristic
-# "column_name": UK Biobank format identifier
-# "label": Label of the characteristic, e.g. "Fasting time"
-# "released": logical indicating if variable is released in the UK Biobank
-# "type": Data type of the characteristic, e.g. "numeric", "factor"
-# "category_sort": 
-# "p_adjust": Bonferroni-adjusted p-value (within each population)
 ```
+
+## Running Enrichment Tests Across Groups
 
 Enrichment tests can also be performed across several groups. Use the
 function `enrichment_test_across_groups()` for this.
+
+The default background includes 2919 unique protein targets measured by
+Olink Explore. You can set a custom background of proteins to test
+against by using the `protein_background` parameter, if your data does
+not cover the full set of proteins.
 
 ``` r
 # When data for several groups is available, supply a names list to this function
@@ -122,9 +138,12 @@ group_data <- list(
 group_results <- enrichment_test_across_groups(
   protein_foreground_list = group_data, 
   test_across = "sex", 
-  n_cores = 8
+  n_cores = 8,
+  protein_background = prodente::protein_mapping_table$mapping_id # this is the default
 )
 ```
+
+## Plotting Enrichment Results
 
 Enrichment test output can be plotted using the function
 `plot_enrichment_results()`.
@@ -140,21 +159,7 @@ enrichment_plot <- plot_enrichment_results(
 
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
-``` r
-
-# The plot function looks for a 'group' column in the results table, so if you
-# want to plot results from enrich_protein_characteristics() function, first
-# add a 'group' column to the results.
-results$group <- "day_3"
-enrichment_plot <- plot_enrichment_results(
-  results,
-  plot_population = "All"
-)
-```
-
-<img src="man/figures/README-unnamed-chunk-6-2.png" width="100%" />
-
-### Accessing the data
+## Accessing the data
 
 To access the data provided in the package, use the
 `prodente::<DATA_OBJECT>` notation.
