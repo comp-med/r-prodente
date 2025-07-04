@@ -49,21 +49,12 @@ check_protein_overlap(fasting_study_results$protein_id, return_missing = TRUE)
 
 head(fasting_study_results$protein_id)
 #> [1] "pcsk9"    "apoa4"    "lep"      "tmprss15" "fam3b"    "tnr"
-# "pcsk9"    "apoa4"    "lep"      "tmprss15" "fam3b"    "tnr"
 #
 # Make sure to check the provided mapping table in case you have missing
 # proteins. Maybe they are in the data but formatted slightly differently.
 # Additionally, the table provides Olink IDs and UniProt IDs to make matching
 # easier.
 head(prodente::protein_mapping_table)
-#>    mapping_id           panel olink_id    assay uniprot hgnc_symbol
-#>        <char>          <char>   <char>   <char>  <char>      <char>
-#> 1:   adamts13 Cardiometabolic OID20249 ADAMTS13  Q76LX8    ADAMTS13
-#> 2:      alcam Cardiometabolic OID20273    ALCAM  Q13740       ALCAM
-#> 3:       blmh Cardiometabolic OID20336     BLMH  Q13867        BLMH
-#> 4:        ca4 Cardiometabolic OID20241      CA4  P22748         CA4
-#> 5:      casp3 Cardiometabolic OID20305    CASP3  P42574       CASP3
-#> 6:      ccl15 Cardiometabolic OID20328    CCL15  Q16663       CCL15
 #>    mapping_id           panel olink_id    assay uniprot hgnc_symbol
 #>        <char>          <char>   <char>   <char>  <char>      <char>
 #> 1:   adamts13 Cardiometabolic OID20249 ADAMTS13  Q76LX8    ADAMTS13
