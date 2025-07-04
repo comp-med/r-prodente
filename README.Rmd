@@ -26,6 +26,9 @@ learning-guided deconvolution of plasma protein
 levels`](https://doi.org/10.1101/2025.01.09.25320257) immediately accessible and
 useful. This package contains functions to easily test a list of proteins for
 enrichment of UK Biobank study characteristics.
+It uses Fisher’s exact test to assess enrichment of input proteins (or groups of
+proteins) for explanatory characteristics (e.g. diseases, drugs, genetics).
+The test can be stratified by sex or ancestry.
 
 ## Installation
 
@@ -45,18 +48,24 @@ available as accessible data.
 ```{r}
 library(prodente)
 
-# There is example data provided
+# There is example data provided. The protein 
 fasting_study_results <- prodente::fasting_study_results
 
 # It is important to check that protein identifiers of your data are available
 # in the background data.
 check_protein_overlap(fasting_study_results$protein_id, return_missing = TRUE)
 
+# The input should be a vector of protein names in lowercase (or a list of
+# vectors for enrichment tests across groups)
+
+head(fasting_study_results$protein_id)
+# "pcsk9"    "apoa4"    "lep"      "tmprss15" "fam3b"    "tnr"
+#
 # Make sure to check the provided mapping table in case you have missing
 # proteins. Maybe they are in the data but formatted slightly differently.
-# Additionally, the table provides Olink IDs and UniProt IDs to make matching 
-# easier
-head(prodente::protein_mapping_table)
+# Additionally, the table provides Olink IDs and UniProt IDs to make matching
+# easier.
+#
 ```
 
 Enrichment tests can be stratified by sex or genetic ancestry. Set the
@@ -66,14 +75,31 @@ so.
 ```{r}
 # Run enrichment tests for a list of proteins
 results <- enrich_protein_characteristics(
-  protein_foreground = fasting_study_results[group == "day_1", protein_id], 
-  factor_minimum_explained_variance = 0, 
+  protein_foreground = fasting_study_results[group == "day_1", protein_id],
+  factor_minimum_explained_variance = 0,
   test_across = "sex",
   n_cores = 8
-  )
+)
 
+# The output is a data.table with enrichment results
+head(results[p_adjust < 0.05 & or > 5, .(population, label)])
 
-head(results[pval < 0.05 & or > 5, .(population, label)])
+# The results table contains the following columns:
+#
+# "population": The sex or ancestry group the enrichment was tested in
+# "variable": The identifier of characteristic that was tested for enrichment
+# "or": Odds ratio of the enrichment test
+# "pval": P-value of the enrichment test
+# "intersection": Proteins in both foreground and explained by the variable
+# "d1" - "d4": Values in the 2x2 contingency table
+# "category": Category of the variable (e.g. "Diseases", "Drugs", "Technical")
+# "id": UK Biobank identifier of the characteristic
+# "column_name": UK Biobank format identifier
+# "label": Label of the characteristic, e.g. "Fasting time"
+# "released": logical indicating if variable is released in the UK Biobank
+# "type": Data type of the characteristic, e.g. "numeric", "factor"
+# "category_sort": 
+# "p_adjust": Bonferroni-adjusted p-value (within each population)
 ```
 
 Enrichment tests can also be performed across several groups. Use the function

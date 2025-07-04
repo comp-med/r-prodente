@@ -226,6 +226,8 @@ enrich_protein_characteristics <- function(
     prodente::participant_characteristics_labels,
     nomatch = NULL
   ]
+  ## add Bonferroni correction
+  enrichment_results[, p_adjust := p.adjust(pval, method = "bonferroni"), by = population]
 
   return(enrichment_results)
 }
