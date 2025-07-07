@@ -8,11 +8,21 @@
 [![R-CMD-check](https://github.com/comp-med/r-prodente/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/comp-med/r-prodente/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
+Studying the plasma proteome in health and disease has now become feasible at scale, but most proteins that can be measured in blood do not have a function in blood. 
+This implies that traditional pathway enrichment tools may give uninformative and maybe even misleading results when applied to lists of differentially expressed proteins from blood.
+We used data from the UK Biobank (https://www.ukbiobank.ac.uk/) to systematically identify for each of >2,900 proteins what changes in plasma may represent, including >1,800 factors measured among >40,000 participants.
+Using machine learning, we identified for each protein that most relevant factors, including diseases and drugs, enviromental components, but also lifestyl factors, or technical variables.
+
 The goal of `prodente` is to make results from the publication
 [`Machine learning-guided deconvolution of plasma protein levels`](https://doi.org/10.1101/2025.01.09.25320257)
-immediately accessible and useful. This package contains functions to
+immediately accessible and useful for **your study**. 
+
+This package contains functions to
 easily test a list of proteins for enrichment of UK Biobank study
-characteristics.
+characteristics. Analgous to pathway enrichment tools, the package delivers evidence for participant (patient) characteristics that may explain (some) of the differentially expressed proteins. 
+For example, it provides a data-driven way to test for potential confounding by other treatments or preanalytical variables, such as platelet aggregation.
+
+Please keep in mind, that this work is based on the Olink Explore platform, and that you need to 1) provide a background of all proteins measured in your study, and 2) that the Olink Explore platform may not capture all proteins available in your study or even have them measured to the same quality.
 
 ## Installation
 
