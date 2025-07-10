@@ -1,6 +1,6 @@
 test_that("Fails with user-friendly error if protein_id or population is missing or invalid", {
   expect_error(
-    plot_variance_explained(pop = "EUR"),
+    plot_variance_explained(plot_population = "EUR"),
     "Please supply a valid protein ID"
   )
   expect_error(
@@ -11,7 +11,7 @@ test_that("Fails with user-friendly error if protein_id or population is missing
 
 test_that("Fails with message when no matching data found", {
   expect_error(
-    plot_variance_explained(protein_id = "nonexistent_protein", pop = "EUR"),
+    plot_variance_explained(protein_id = "nonexistent_protein", plot_population = "EUR"),
     "No data found for the given protein and population"
   )
 })
@@ -21,7 +21,7 @@ test_that("Returns a gridExtra/gtable object for valid input", {
   skip_if_not_installed("ggplot2")
   
   pdf(NULL) # suppress device output
-  p <- plot_variance_explained(protein_id = "pcsk9", pop = "EUR")
+  p <- plot_variance_explained(protein_id = "pcsk9", plot_population = "EUR")
   dev.off()
   
   expect_true(inherits(p, "gtable") || inherits(p, "grob"))

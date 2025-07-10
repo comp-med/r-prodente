@@ -173,14 +173,16 @@ group_results <- enrichment_test_across_groups(
 ## Plotting Enrichment Results
 
 Enrichment test output can be plotted using the function
-`plot_enrichment_results()`.
+`plot_enrichment_results()`. The outline of the dots are black if the
+result is significant after chosen adjustment.
 
 ``` r
 # You can plot enrichment results for a single population (within either `sex`
 # or `ancestry`).
 enrichment_plot <- plot_enrichment_results(
   group_results,
-  plot_population = "All"
+  plot_population = "All",
+  pvalue_adjustment = "bonferroni" # default
 )
 ```
 
@@ -193,7 +195,7 @@ single protein using the function `plot_variance_explained()`. The top
 chart shows the cumulative explained variance.
 
 ``` r
-varience_plot <- plot_variance_explained(protein_id="pcsk9", pop="All")
+varience_plot <- plot_variance_explained(protein_id="pcsk9", plot_population="All")
 ```
 
 <img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />

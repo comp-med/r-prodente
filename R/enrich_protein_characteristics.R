@@ -227,7 +227,7 @@ enrich_protein_characteristics <- function(
     nomatch = NULL
   ]
   ## add Bonferroni correction
-  enrichment_results[, p_adjust := p.adjust(pval, method = "bonferroni"), by = population]
+  enrichment_results[, p_adjust := stats::p.adjust(pval, method = "bonferroni"), by = population]
 
   return(enrichment_results)
 }

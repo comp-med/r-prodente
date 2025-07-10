@@ -4,12 +4,12 @@
 \alias{plot_variance_explained}
 \title{Plot Variance Explained for a Protein}
 \usage{
-plot_variance_explained(protein_id, pop)
+plot_variance_explained(protein_id, plot_population)
 }
 \arguments{
 \item{protein_id}{Character. Protein ID to plot (e.g. "pcsk9").}
 
-\item{pop}{Character. The population to subset by ("EUR", "AFR", "CSA", "Female" or "Male").}
+\item{plot_population}{Character. The population to subset by ("EUR", "AFR", "CSA", "Female" or "Male").}
 }
 \value{
 A patchwork ggplot object showing explained variance for the top 20 contributing factors.

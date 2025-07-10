@@ -3,16 +3,16 @@
 #' Visualize the top factors explaining variance for a selected protein in a given population.
 #'
 #' @param protein_id Character. Protein ID to plot (e.g. "pcsk9").
-#' @param pop Character. The population to subset by ("EUR", "AFR", "CSA", "Female" or "Male").
+#' @param plot_population Character. The population to subset by ("EUR", "AFR", "CSA", "Female" or "Male").
 #'
 #' @return A patchwork ggplot object showing explained variance for the top 20 contributing factors.
 #' @export
-plot_variance_explained <- function(protein_id, pop) {
+plot_variance_explained <- function(protein_id, plot_population) {
   
   if (missing(protein_id) || !is.character(protein_id) || length(protein_id) != 1) {
     stop("Please supply a valid protein ID (e.g., 'pcsk9').", call. = FALSE)
   }
-  if (missing(pop) || !is.character(pop) || length(pop) != 1) {
+  if (missing(plot_population) || !is.character(plot_population) || length(plot_population) != 1) {
     stop("Please supply a valid population (e.g., 'EUR', 'AFR', 'Female', etc.).", call. = FALSE)
   }
   
@@ -21,7 +21,7 @@ plot_variance_explained <- function(protein_id, pop) {
   lab <- get("participant_characteristics_labels", envir = asNamespace("prodente"))
   
   # Filter for protein and population
-  res_subset <- dplyr::filter(res, protein == protein_id, population == pop)
+  res_subset <- dplyr::filter(res, protein == protein_id, population == plot_population)
   
   if (nrow(res_subset) == 0) {
     stop("No data found for the given protein and population. Please check the inputs.", call. = FALSE)
