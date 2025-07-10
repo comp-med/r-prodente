@@ -18,6 +18,11 @@ plot_enrichment_results <- function(
     stop("Please supply the output of `enrich_protein_characteristics()` to this function.")
   }
 
+  # Add empty group column for single-group results
+  if (!"group" %in% names(enrichment_results)) {
+    enrichment_results[, group := " "]
+  }
+
   if (
     is.null(plot_population) ||
     length(plot_population) != 1 ||
@@ -60,6 +65,12 @@ plot_enrichment_results <- function(
       axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
 
     )
+  
+  # If there's a single group, dont display the y axis title
+  if (length(unique(enrichment_results$group))==1) {
+    enrichment_plot <- enrichment_plot + ggplot2::labs(y = NULL)
+  }
+  
   print(enrichment_plot)
   return(enrichment_plot)
 
