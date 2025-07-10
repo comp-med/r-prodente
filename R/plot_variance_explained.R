@@ -89,7 +89,7 @@ plot_variance_explained <- function(protein_id, pop) {
       legend.position = "none"
     )
   
-  combined_plot <- top_plot / bottom_plot + patchwork::plot_layout(heights = c(0.2, 0.8))
-  print(combined_plot)
+  combined_plot <- gridExtra::grid.arrange(top_plot, bottom_plot, heights = c(0.2, 0.8), ncol = 1)
+  
   return(combined_plot)
 }

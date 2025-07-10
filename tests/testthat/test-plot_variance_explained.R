@@ -16,13 +16,13 @@ test_that("Fails with message when no matching data found", {
   )
 })
 
-test_that("Returns a patchwork/ggplot object for valid input", {
-  skip_if_not_installed("patchwork")
+test_that("Returns a gridExtra/gtable object for valid input", {
+  skip_if_not_installed("gridExtra")
   skip_if_not_installed("ggplot2")
   
   pdf(NULL) # suppress device output
   p <- plot_variance_explained(protein_id = "pcsk9", pop = "EUR")
   dev.off()
   
-  expect_true(inherits(p, "gg") || inherits(p, "patchwork"))
+  expect_true(inherits(p, "gtable") || inherits(p, "grob"))
 })

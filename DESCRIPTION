@@ -15,7 +15,7 @@ RoxygenNote: 7.3.2
 Imports: 
     data.table,
     ggplot2,
-    patchwork,
+    gridExtra,
     dplyr,
     stringr,
     scales
