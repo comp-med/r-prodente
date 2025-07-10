@@ -46,11 +46,7 @@ GitHub:
 
 ``` r
 library(remotes)
-#install_github("comp-med/prodente")
-```
-
-``` r
-library(patchwork)
+install_github("comp-med/prodente")
 ```
 
 ## Getting Started
@@ -188,7 +184,7 @@ enrichment_plot <- plot_enrichment_results(
 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
 ## Plotting Explained Variance for a Single Protein
 
@@ -200,7 +196,7 @@ chart shows the cumulative explained variance.
 varience_plot <- plot_variance_explained(protein_id="pcsk9", pop="All")
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
 
 ## Accessing the Data
 

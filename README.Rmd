@@ -55,11 +55,7 @@ You can install the development version of `prodente` directly from GitHub:
 
 ```{r, eval=FALSE}
 library(remotes)
-#install_github("comp-med/prodente")
-```
-
-```{r, message=FALSE}
-library(patchwork)
+install_github("comp-med/prodente")
 ```
 
 ## Getting Started
