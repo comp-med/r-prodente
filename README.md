@@ -8,21 +8,36 @@
 [![R-CMD-check](https://github.com/comp-med/r-prodente/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/comp-med/r-prodente/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-Studying the plasma proteome in health and disease has now become feasible at scale, but most proteins that can be measured in blood do not have a function in blood. 
-This implies that traditional pathway enrichment tools may give uninformative and maybe even misleading results when applied to lists of differentially expressed proteins from blood.
-We used data from the UK Biobank (https://www.ukbiobank.ac.uk/) to systematically identify for each of >2,900 proteins what changes in plasma may represent, including >1,800 factors measured among >40,000 participants.
-Using machine learning, we identified for each protein that most relevant factors, including diseases and drugs, enviromental components, but also lifestyl factors, or technical variables.
+Studying the plasma proteome in health and disease has now become
+feasible at scale, but most proteins that can be measured in blood do
+not have a function in blood. This implies that traditional pathway
+enrichment tools may give uninformative and maybe even misleading
+results when applied to lists of differentially expressed proteins from
+blood. We used data from the
+[`UK Biobank`](https://www.ukbiobank.ac.uk/) to systematically identify
+for each of \>2,900 proteins what changes in plasma may represent,
+including \>1,800 factors measured among \>40,000 participants. Using
+machine learning, we identified for each protein that most relevant
+factors, including diseases and drugs, enviromental components, but also
+lifestyle factors, or technical variables.
 
 The goal of `prodente` is to make results from the publication
 [`Machine learning-guided deconvolution of plasma protein levels`](https://doi.org/10.1101/2025.01.09.25320257)
-immediately accessible and useful for **your study**. 
+immediately accessible for **your study**.
 
-This package contains functions to
-easily test a list of proteins for enrichment of UK Biobank study
-characteristics. Analgous to pathway enrichment tools, the package delivers evidence for participant (patient) characteristics that may explain (some) of the differentially expressed proteins. 
-For example, it provides a data-driven way to test for potential confounding by other treatments or preanalytical variables, such as platelet aggregation.
+This package contains functions to easily test a list of proteins for
+enrichment of UK Biobank study characteristics. Analogous to pathway
+enrichment tools, the package delivers evidence for participant
+(patient) characteristics that may explain (some) of the differentially
+expressed proteins. For example, it provides a data-driven way to test
+for potential confounding by other treatments or preanalytical
+variables, such as platelet aggregation.
 
-Please keep in mind, that this work is based on the Olink Explore platform, and that you need to 1) provide a background of all proteins measured in your study, and 2) that the Olink Explore platform may not capture all proteins available in your study or even have them measured to the same quality.
+Please keep in mind, that this work is based on the Olink Explore
+platform, and that you need to 1) provide a background of all proteins
+measured in your study, and 2) that the Olink Explore platform may not
+capture all proteins available in your study or even have them measured
+to the same quality.
 
 ## Installation
 
@@ -43,7 +58,7 @@ object is immediately available as accessible data.
 ``` r
 library(prodente)
 
-# There is example data provided
+# There is example data provided.
 fasting_study_results <- prodente::fasting_study_results
 
 # It is important to check that protein identifiers of your data are available
@@ -51,10 +66,15 @@ fasting_study_results <- prodente::fasting_study_results
 check_protein_overlap(fasting_study_results$protein_id, return_missing = TRUE)
 #> character(0)
 
+# The input should be a vector of protein names in lowercase (or a list of
+# vectors for enrichment tests across groups)
+head(fasting_study_results$protein_id)
+#> [1] "pcsk9"    "apoa4"    "lep"      "tmprss15" "fam3b"    "tnr"
+
 # Make sure to check the provided mapping table in case you have missing
 # proteins. Maybe they are in the data but formatted slightly differently.
-# Additionally, the table provides Olink IDs and UniProt IDs to make matching 
-# easier
+# Additionally, the table provides Olink IDs and UniProt IDs to make matching
+# easier.
 head(prodente::protein_mapping_table)
 #>    mapping_id           panel olink_id    assay uniprot hgnc_symbol
 #>        <char>          <char>   <char>   <char>  <char>      <char>
@@ -66,33 +86,72 @@ head(prodente::protein_mapping_table)
 #> 6:      ccl15 Cardiometabolic OID20328    CCL15  Q16663       CCL15
 ```
 
+## Running Enrichment Tests
+
 Enrichment tests can be stratified by sex or genetic ancestry. Set the
 `test_across` parameter of the function
 `enrich_protein_characteristics()` to do so.
 
+The results table returned includes the following columns:
+
+**population**: The sex or ancestry group enrichment was tested in (or
+‘All’)  
+**variable**: Identifier of the explanatory characteristic tested for
+enrichment  
+**or**: Odds ratio of the enrichment test  
+**pval**: Raw p-value from Fisher’s exact test  
+**intersection**: Proteins both in the input and explained by the
+variable  
+**d1 to d4**: Counts from the 2×2 contingency table used for Fisher’s
+exact test  
+**category**: Category of the characteristic (e.g. “Diseases”)  
+**id**: UK Biobank field ID of the variable (if applicable)  
+**column_name**: Column name in UK Biobank format  
+**label**: Human-readable label for the characteristic (e.g. “Fasting
+time”)  
+**released**: Logical indicating whether the variable is released in UK
+Biobank  
+**type**: Data type of the characteristic (e.g. “numeric”, “factor”)  
+**category_sort**: Used for ordering categories  
+**p_adjust**: Bonferroni-adjusted p-value (adjusted within each
+population)  
+***group***: *The group name of proteins tested for enrichment (only
+when testing groups)*
+
 ``` r
+# The background by default includes all proteins in the protein mapping table
+background <- prodente::protein_mapping_table$mapping_id # n=2919
+
 # Run enrichment tests for a list of proteins
 results <- enrich_protein_characteristics(
-  protein_foreground = fasting_study_results[group == "day_1", protein_id], 
-  factor_minimum_explained_variance = 0, 
+  protein_foreground = fasting_study_results[group == "day_3", protein_id],
+  factor_minimum_explained_variance = 0,
   test_across = "sex",
-  n_cores = 8
-  )
+  n_cores = 8,
+  protein_background = background
+)
 
-
-head(results[pval < 0.05 & or > 5, .(population, label)])
+# The output is a data.table with enrichment results
+head(results[p_adjust < 0.05 & or > 5, .(population, label)])
 #>    population        label
 #>        <char>       <char>
-#> 1:        All      Insulin
-#> 2:        All    Metformin
-#> 3:     Female    Metformin
-#> 4:       Male    Metformin
-#> 5:       Male Bread intake
-#> 6:        All Atorvastatin
+#> 1:     Female      Digoxin
+#> 2:     Female  Simvastatin
+#> 3:        All Atorvastatin
+#> 4:     Female Atorvastatin
+#> 5:        All Fasting time
+#> 6:     Female Fasting time
 ```
+
+## Running Enrichment Tests Across Groups
 
 Enrichment tests can also be performed across several groups. Use the
 function `enrichment_test_across_groups()` for this.
+
+The default background includes 2919 unique protein targets measured by
+Olink Explore. You should set a custom background of proteins to test
+against by using the `protein_background` parameter, if your data does
+not cover the full set of proteins.
 
 ``` r
 # When data for several groups is available, supply a names list to this function
@@ -106,19 +165,42 @@ group_data <- list(
 group_results <- enrichment_test_across_groups(
   protein_foreground_list = group_data, 
   test_across = "sex", 
-  n_cores = 8
-)
-
-# You can plot enrichment results for a single subgroup (within either `sex` or `ancestry`)
-enrichment_plot <- plot_enrichment_results(
-  group_results,
-  plot_population = "All"
+  n_cores = 8,
+  protein_background = prodente::protein_mapping_table$mapping_id # this is the default
 )
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+## Plotting Enrichment Results
 
-### Accessing the data
+Enrichment test output can be plotted using the function
+`plot_enrichment_results()`. The outline of the dots are black if the
+result is significant after chosen adjustment.
+
+``` r
+# You can plot enrichment results for a single population (within either `sex`
+# or `ancestry`).
+enrichment_plot <- plot_enrichment_results(
+  group_results,
+  plot_population = "All",
+  pvalue_adjustment = "bonferroni" # default
+)
+```
+
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+
+## Plotting Explained Variance for a Single Protein
+
+You can plot the top 20 factors that contribute to the variance for a
+single protein using the function `plot_variance_explained()`. The top
+chart shows the cumulative explained variance.
+
+``` r
+varience_plot <- plot_variance_explained(protein_id="pcsk9", plot_population="All")
+```
+
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+
+## Accessing the Data
 
 To access the data provided in the package, use the
 `prodente::<DATA_OBJECT>` notation.
